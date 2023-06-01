@@ -1,31 +1,24 @@
-class UserNotFoundError(Exception):
-    def __init__(self, username):
-        self.username = username
-        super().__init__(f"User not found: {username}")
-class User:
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-class UserDatabase:
-    def __init__(self):
-        self.users = {
-            'john': User('john', 'john@example.com'),
-            'jane': User('jane', 'jane@example.com'),
-            'alex': User('alex', 'alex@example.com')
-        }
-    def get_user(self, username):
-        user = self.users.get(username)
-        if not user:
-            raise UserNotFoundError(username)
-        return user
-user_database = UserDatabase()
+class TemperatureConverter:
+    @staticmethod
+    def celsius_to_fahrenheit(celsius):
+        if celsius < -273.15:
+            raise ValueError("Invalid temperature value: below absolute zero")
+        fahrenheit = celsius * 9/5 + 32
+        return fahrenheit
+    @staticmethod
+    def fahrenheit_to_celsius(fahrenheit):
+        if fahrenheit < -459.67:
+            raise ValueError("Invalid temperature value: below absolute zero")
+        celsius = (fahrenheit - 32) * 5/9
+        return celsius
+temperature_converter = TemperatureConverter()
 try:
-    user = user_database.get_user('john')
-    print(user.username, user.email)
-except UserNotFoundError as e:
+    fahrenheit = temperature_converter.celsius_to_fahrenheit(25)
+    print(fahrenheit)
+except ValueError as e:
     print(e)
 try:
-    user = user_database.get_user('mary')
-    print(user.username, user.email)
-except UserNotFoundError as e:
+    celsius = temperature_converter.fahrenheit_to_celsius(77)
+    print(celsius)
+except ValueError as e:
     print(e)
